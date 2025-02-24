@@ -1,0 +1,33 @@
+# turret-commands.txt
+# This file creates a turretRoot group node, a cylindrical base, and a roof.
+
+createNode turretRoot group
+setActive turretRoot
+
+def matTurretBase
+Ka 0.1 0.1 0.1
+Kd 0.5 0.5 0.5  # grey
+Ks 0.3 0.3 0.3
+Ns 20
+setMaterial matTurretBase
+
+# Cylinder for turret base (assuming your parser has a geometry "cylinder")
+createNode turretBase geometry cylinder
+setMaterial turretBase matTurretBase
+scale turretBase 2 4 2
+translate turretBase 0 2 0
+attach turretBase turretRoot
+
+def matTurretRoof
+Ka 0.1 0.1 0.1
+Kd 0.8 0.6 0.2  # a gold-ish color
+Ks 0.3 0.3 0.3
+Ns 50
+setMaterial matTurretRoof
+
+# Cone or pyramid for turret roof (assuming a "cone" geometry is available)
+createNode turretRoof geometry cone
+setMaterial turretRoof matTurretRoof
+scale turretRoof 2 2 2
+translate turretRoof 0 4 0
+attach turretRoof turretRoot

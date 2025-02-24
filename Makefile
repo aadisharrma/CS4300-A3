@@ -26,7 +26,8 @@ LIBS     = -lglfw3 -lglad           \
 SRCS = src/main.cpp \
        src/MySceneGraph.cpp \
        src/PrintVisitor.cpp \
-       src/Trackball.cpp
+       src/Trackball.cpp \
+       src/CommandParser.cpp
 
 # This transforms each .cpp file into a .o file.
 OBJS = $(SRCS:.cpp=.o)

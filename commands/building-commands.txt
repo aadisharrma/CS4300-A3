@@ -1,0 +1,56 @@
+# building-commands.txt
+# This file creates a "buildingRoot" group node and attaches building pieces.
+
+createNode buildingRoot group
+setActive buildingRoot
+
+# Optional: define a material for the building walls
+def matBuilding
+Ka 0.1 0.1 0.1
+Kd 0.6 0.3 0.3   # a reddish color
+Ks 0.2 0.2 0.2
+Ns 50
+setMaterial matBuilding
+
+# Create walls
+createNode wall1 geometry box
+setMaterial wall1 matBuilding
+scale wall1 10 4 0.5
+translate wall1 0 2 -5   # position behind?
+attach wall1 buildingRoot
+
+createNode wall2 geometry box
+setMaterial wall2 matBuilding
+scale wall2 10 4 0.5
+translate wall2 0 2 5
+attach wall2 buildingRoot
+
+createNode wall3 geometry box
+setMaterial wall3 matBuilding
+scale wall3 0.5 4 10
+translate wall3 5 2 0
+attach wall3 buildingRoot
+
+createNode wall4 geometry box
+setMaterial wall4 matBuilding
+scale wall4 0.5 4 10
+translate wall4 -5 2 0
+attach wall4 buildingRoot
+
+# Create a roof (pyramid or sloped box, etc.)
+# We'll just do a box to keep it simple.
+def matRoof
+Ka 0.1 0.1 0.1
+Kd 0.4 0.4 0.6  # a bluish color
+Ks 0.2 0.2 0.2
+Ns 30
+setMaterial matRoof
+
+createNode roof geometry box
+setMaterial roof matRoof
+scale roof 10 1 10
+translate roof 0 5 0
+attach roof buildingRoot
+
+# We have 5 instances so far (wall1-4 and roof).
+# We'll add more details or a turret next.

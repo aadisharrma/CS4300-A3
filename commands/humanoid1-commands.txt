@@ -1,0 +1,44 @@
+# humanoid1-commands.txt
+# Creates a group node "humanoid1Root" with a head, arms, etc.
+# We'll do a very simplified version.
+
+createNode humanoid1Root group
+setActive humanoid1Root
+
+def matHumanoid
+Ka 0.1 0.1 0.1
+Kd 0.4 0.8 0.4  # greenish
+Ks 0.2 0.2 0.2
+Ns 25
+setMaterial matHumanoid
+
+# torso
+createNode torso geometry box
+setMaterial torso matHumanoid
+scale torso 1 2 0.5
+attach torso humanoid1Root
+
+# head
+createNode head geometry sphere
+setMaterial head matHumanoid
+scale head 0.5 0.5 0.5
+translate head 0 2.0 0
+attach head humanoid1Root
+
+# left arm
+createNode leftArm geometry box
+setMaterial leftArm matHumanoid
+scale leftArm 0.3 1.5 0.3
+translate leftArm -0.8 1.0 0
+attach leftArm humanoid1Root
+rotate leftArm 0 0 45   # some random pose angle
+
+# right arm
+createNode rightArm geometry box
+setMaterial rightArm matHumanoid
+scale rightArm 0.3 1.5 0.3
+translate rightArm 0.8 1.0 0
+attach rightArm humanoid1Root
+rotate rightArm 0 0 -20
+
+# legs, etc. (omitted for brevity)

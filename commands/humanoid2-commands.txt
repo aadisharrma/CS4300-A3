@@ -1,0 +1,60 @@
+# humanoid2-commands.txt
+# This creates a second humanoid with a different pose.
+
+createNode humanoid2Root group
+setActive humanoid2Root
+
+def matHumanoid2
+Ka 0.1 0.1 0.1
+Kd 0.8 0.4 0.4  # a reddish color (different from humanoid1)
+Ks 0.2 0.2 0.2
+Ns 25
+setMaterial matHumanoid2
+
+# torso
+createNode torso2 geometry box
+setMaterial torso2 matHumanoid2
+scale torso2 1 2 0.5
+attach torso2 humanoid2Root
+
+# head
+createNode head2 geometry sphere
+setMaterial head2 matHumanoid2
+scale head2 0.5 0.5 0.5
+translate head2 0 2.0 0
+attach head2 humanoid2Root
+
+# left arm
+createNode leftArm2 geometry box
+setMaterial leftArm2 matHumanoid2
+scale leftArm2 0.3 1.5 0.3
+translate leftArm2 -0.8 1.0 0
+attach leftArm2 humanoid2Root
+rotate leftArm2 0 0 80   # more dramatic angle
+
+# right arm
+createNode rightArm2 geometry box
+setMaterial rightArm2 matHumanoid2
+scale rightArm2 0.3 1.5 0.3
+translate rightArm2 0.8 1.0 0
+attach rightArm2 humanoid2Root
+rotate rightArm2 0 0 -10
+
+# left leg
+createNode leftLeg2 geometry box
+setMaterial leftLeg2 matHumanoid2
+scale leftLeg2 0.3 1.7 0.3
+translate leftLeg2 -0.3 -1.0 0
+attach leftLeg2 humanoid2Root
+rotate leftLeg2 0 0 10
+
+# right leg
+createNode rightLeg2 geometry box
+setMaterial rightLeg2 matHumanoid2
+scale rightLeg2 0.3 1.7 0.3
+translate rightLeg2 0.3 -1.0 0
+attach rightLeg2 humanoid2Root
+
+# Optionally, add a pedestal for this humanoid as well
+createNode pedestal2 geometry cylinder
+def matPedestal2

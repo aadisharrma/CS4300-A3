@@ -1,0 +1,55 @@
+# scene-commands.txt
+# This is the main file that ties everything together.
+
+# 1) define root
+createNode sceneRoot group
+setActive sceneRoot
+
+# 2) define some ground
+def matGround
+Ka 0.1 0.1 0.1
+Kd 0.3 0.5 0.3  # a greenish ground color
+Ks 0.2 0.2 0.2
+Ns 10
+setMaterial matGround
+
+createNode ground geometry box
+setMaterial ground matGround
+scale ground 50 0.5 50
+translate ground 0 -0.25 0
+attach ground sceneRoot
+
+# 3) import building, turret, and position them
+import building-commands.txt
+attach buildingRoot sceneRoot
+
+# if you kept turret separate:
+import turret-commands.txt
+attach turretRoot sceneRoot
+
+# move the turret on top of the building
+translate turretRoot 0 4 0   # adjust as needed
+# (or attach turretRoot to buildingRoot if you want it parented)
+
+# 4) import humanoids
+import humanoid1-commands.txt
+import humanoid2-commands.txt
+attach humanoid1Root sceneRoot
+attach humanoid2Root sceneRoot
+
+# position them somewhere on the ground
+translate humanoid1Root -10 0 0
+rotate humanoid1Root 0 90 0   # face the building, etc.
+
+translate humanoid2Root 10 0 0
+rotate humanoid2Root 0 -45 0
+
+# 5) You can create more copies of the building if you like
+# For instance, load building-commands again or define more buildings.
+# Make sure you have at least 10 total instances in your building + turret, etc.
+
+# That's it! We now have:
+# - A ground plane
+# - A building with walls & roof (≥ 5+ pieces)
+# - A turret (≥ 2 pieces)
+# - 2 humanoids with different poses
