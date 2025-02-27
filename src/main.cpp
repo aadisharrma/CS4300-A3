@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
     
     // Create a trackball for scene rotation
     Trackball* trackball = new Trackball();
-    trackball->setRadius(5.0f); // Adjust based on your scene size
+    trackball->setRadius(5.0f);
     
     // Create renderer and start rendering loop
     // This will handle the OpenGL setup, trackball interaction, and rendering
