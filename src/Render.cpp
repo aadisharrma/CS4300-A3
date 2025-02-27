@@ -72,7 +72,7 @@ public:
         // Create default trackball if none provided
         if (!trackball) {
             trackball = new Trackball();
-            trackball->setRadius(5.0f); // Set appropriate radius for your scene
+            trackball->setRadius(5.0f);
         }
 
         // Setup OpenGL state
@@ -115,10 +115,14 @@ public:
     }
 
     void InitializeSceneGraph() {
-        // Create a visitor to initialize OpenGL objects for the scene graph
-        // This would typically create VAOs and VBOs for each geometry node
-        // For this example, we'll assume your scene graph already has the necessary data
+    if (root) {
+        // Create an OpenGL renderer visitor with our shader program
+        GLScenegraphRenderer renderer(shaderProgram);
+        
+        // Visit the entire scene graph to initialize OpenGL objects
+        root->accept(&renderer);
     }
+}
 
     void HandleInput() {
         SDL_Event event;
