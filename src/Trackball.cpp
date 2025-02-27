@@ -1,3 +1,8 @@
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/norm.hpp>
+#include <glm/gtx/component_wise.hpp>
 #include "Trackball.h"
 #include <glm/gtx/quaternion.hpp>
 #include <cmath>
