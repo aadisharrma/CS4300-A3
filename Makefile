@@ -10,24 +10,29 @@ CXXFLAGS = -std=c++17 -Wall         \
            -Iinclude/glad           \
            -Iinclude/GLFW           \
            -Iinclude/glm            \
+           -I/opt/homebrew/include/SDL2 \
            -Isrc
 
 # This directs the linker to look in the local 'lib/' folder.
-LDFLAGS  = -Llib
+LDFLAGS  = -Llib \
+           -L/opt/homebrew/Cellar/sdl2/2.32.0/lib
 
 # This links against libraries found in lib/, plus macOS frameworks for OpenGL.
-LIBS     = -lglfw3 -lglad           \
+LIBS     = -lglfw3 -lSDL2    \
            -framework Cocoa         \
            -framework IOKit         \
            -framework CoreVideo     \
            -framework OpenGL
 
 # This lists all of our .cpp files.
-SRCS = src/main.cpp \
+SRCS = glad/glad.c \
+	   src/main.cpp \
        src/MySceneGraph.cpp \
        src/PrintVisitor.cpp \
        src/Trackball.cpp \
+       src/Renderer.cpp \
        src/CommandParser.cpp
+       
 
 # This transforms each .cpp file into a .o file.
 OBJS = $(SRCS:.cpp=.o)
