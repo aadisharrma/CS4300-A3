@@ -21,4 +21,4 @@ TransformNode (RootNode)
 parseCommands stub: reading commands/scene-commands.txt
 TransformNode (sceneRoot)
 
-Now will work on Part 3
+Part 3 is completely functional and working. 
