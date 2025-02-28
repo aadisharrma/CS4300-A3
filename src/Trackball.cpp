@@ -1,33 +1,39 @@
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
+#include "Trackball.h"
 #include <glm/gtx/norm.hpp>
 #include <glm/gtx/component_wise.hpp>
-#include "Trackball.h"
-#include <glm/gtx/quaternion.hpp>
 #include <cmath>
 
-Trackball::Trackball(float radius) : radius(radius), rotationQuat(1, 0, 0, 0) {}
+Trackball::Trackball(float radius) : radius(radius), isRotating(false), rotationQuat(1, 0, 0, 0) {}
 
-// When the user presses the mouse
-void Trackball::startRotation(float x, float y) {
-    lastPosition = mapToSphere(x, y);
+void Trackball::setRadius(float r) {
+    radius = r;
 }
 
-// When the user draags the pressed mouse
+void Trackball::startRotation(float x, float y) {
+    isRotating = true;
+    lastPosition = glm::vec2(x, y);
+}
+
 void Trackball::updateRotation(float x, float y) {
-    glm::vec3 newPosition = mapToSphere(x, y);
-
-    glm::vec3 axis = glm::cross(lastPosition, newPosition);
-    float angle = glm::length(axis);
-
-    if (angle > 0.0001f) {
+    if (!isRotating) return;
+    
+    glm::vec3 newPosition = mapToSphere(glm::vec2(x, y));
+    glm::vec3 from = mapToSphere(lastPosition);
+    glm::vec3 axis = glm::cross(from, newPosition);
+    float angle = glm::acos(glm::min(glm::dot(from, newPosition), 1.0f));
+    
+    if (glm::length(axis) > 0.0001f) {
         axis = glm::normalize(axis);
         glm::quat deltaRotation = glm::angleAxis(angle, axis);
         rotationQuat = deltaRotation * rotationQuat;
     }
+    
+    lastPosition = glm::vec2(x, y);
+}
 
-    lastPosition = newPosition;
+void Trackball::stopRotation() {
+    isRotating = false;
 }
 
 void Trackball::resetRotation() {
@@ -38,17 +44,15 @@ glm::mat4 Trackball::getRotationMatrix() const {
     return glm::toMat4(rotationQuat);
 }
 
-// Converts the coordinats to the 3d sphere
-glm::vec3 Trackball::mapToSphere(float x, float y) {
-    glm::vec3 result(x, y, 0);
-    float squaredLength = x * x + y * y;
+glm::vec3 Trackball::mapToSphere(const glm::vec2& point) {
+    glm::vec3 result(point.x, point.y, 0);
+    float squaredLength = glm::dot(point, point);
     
     if (squaredLength > 1.0f) {
         result = glm::normalize(result);
     } else {
         result.z = std::sqrt(1.0f - squaredLength);
     }
-
+    
     return result;
 }
-

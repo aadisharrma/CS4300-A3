@@ -12,82 +12,19 @@ private:
     float radius;
     bool isRotating;
     glm::vec2 lastPosition;
-    glm::quat currentRotation;
-    glm::quat initialRotation;
+    glm::quat rotationQuat;
 
-    // Maps window coordinates to a point on the trackball sphere
-    glm::vec3 mapToSphere(const glm::vec2& point) {
-        glm::vec2 p = point / radius;
-        float d = glm::length(p);
-        
-        // Clamp d to the range [0, 1]
-        if (d > 1.0f) {
-            d = 1.0f;
-        }
-        
-        // Calculate z-coordinate on the sphere
-        float z = std::sqrt(1.0f - d * d);
-        
-        // Return the normalized 3D point
-        return glm::normalize(glm::vec3(p.x, p.y, z));
-    }
+    glm::vec3 mapToSphere(const glm::vec2& point);
 
 public:
-    Trackball() : radius(1.0f), isRotating(false), currentRotation(1.0f, 0.0f, 0.0f, 0.0f) {}
+    Trackball(float radius = 1.0f);
 
-    void setRadius(float r) {
-        radius = r;
-    }
-
-    void startRotation(float x, float y) {
-        isRotating = true;
-        lastPosition = glm::vec2(x, y);
-        initialRotation = currentRotation;
-    }
-
-    void updateRotation(float x, float y) {
-        if (!isRotating) return;
-        
-        glm::vec2 newPosition(x, y);
-        
-        // Calculate rotation between last position and new position
-        glm::vec3 from = mapToSphere(lastPosition);
-        glm::vec3 to = mapToSphere(newPosition);
-        
-        // Create quaternion from the rotation
-        float dot = glm::dot(from, to);
-        if (dot > 0.9999f) {
-            // Points are too close, no significant rotation
-            return;
-        }
-        
-        // Cross product gives axis of rotation
-        glm::vec3 axis = glm::cross(from, to);
-        
-        // Angle between the points
-        float angle = std::acos(std::min(dot, 1.0f));
-        
-        // Create rotation quaternion
-        glm::quat newRotation = glm::angleAxis(angle, glm::normalize(axis));
-        
-        // Update current rotation
-        currentRotation = newRotation * initialRotation;
-        
-        // Update last position
-        lastPosition = newPosition;
-    }
-
-    void stopRotation() {
-        isRotating = false;
-    }
-
-    void resetRotation() {
-        currentRotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
-    }
-
-    glm::mat4 getRotationMatrix() const {
-        return glm::toMat4(currentRotation);
-    }
+    void setRadius(float r);
+    void startRotation(float x, float y);
+    void updateRotation(float x, float y);
+    void stopRotation();
+    void resetRotation();
+    glm::mat4 getRotationMatrix() const;
 };
 
 #endif // TRACKBALL_H

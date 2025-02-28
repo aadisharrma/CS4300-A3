@@ -1,12 +1,12 @@
 #include "MySceneGraph.h"
-#include "PrintVisitor.h" // This is where SGVisitor is defined
+#include "PrintVisitor.h"
 
-// This invokes visitTransformNode(...) when a visitor visits a TransformNode.
+// This invokes visit(...) when a visitor visits a TransformNode.
 void TransformNode::accept(SGVisitor* visitor) {
-    visitor->visitTransformNode(this);
+    visitor->visit(this);
 }
 
-// This invokes visitGeometryNode(...) when a visitor visits a GeometryNode.
+// This invokes visit(...) when a visitor visits a GeometryNode.
 void GeometryNode::accept(SGVisitor* visitor) {
-    visitor->visitGeometryNode(this);
+    visitor->visit(this);
 }
